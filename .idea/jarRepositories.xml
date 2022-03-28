@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteRepositoriesConfiguration">
+    <remote-repository>
+      <option name="id" value="ep-public" />
+      <option name="name" value="ep-public" />
+      <option name="url" value="https://repository.elasticpath.com/nexus/content/repositories/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="ep-commerce-engine" />
+      <option name="name" value="ep-commerce-engine" />
+      <option name="url" value="https://repository.elasticpath.com/nexus/content/repositories/commerce-engine/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Maven Central repository" />
+      <option name="url" value="https://repo1.maven.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="springsource-external" />
+      <option name="name" value="springsource-external" />
+      <option name="url" value="http://repository.springsource.com/maven/bundles/external/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="adobe-public" />
+      <option name="name" value="adobe-public" />
+      <option name="url" value="http://repo.adobe.com/nexus/content/groups/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="groovy-maven" />
+      <option name="name" value="groovy-maven" />
+      <option name="url" value="https://dl.bintray.com/groovy/maven/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="ep-cortex" />
+      <option name="name" value="ep-cortex" />
+      <option name="url" value="https://repository.elasticpath.com/nexus/content/repositories/cortex/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="java.net-releases" />
+      <option name="name" value="java.net-releases" />
+      <option name="url" value="https://maven.java.net/content/repositories/releases/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="ep-accelerators" />
+      <option name="name" value="ep-accelerators" />
+      <option name="url" value="https://repository.elasticpath.com/nexus/content/repositories/accelerators/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="sonatype" />
+      <option name="name" value="sonatype" />
+      <option name="url" value="https://repository.sonatype.org/content/groups/forge/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="central" />
+      <option name="url" value="https://repo1.maven.org/maven2/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jboss.community" />
+      <option name="name" value="JBoss Community repository" />
+      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="springframework-milestone" />
+      <option name="name" value="springframework-milestone" />
+      <option name="url" value="http://maven.springframework.org/milestone/" />
+    </remote-repository>
+  </component>
+</project>
