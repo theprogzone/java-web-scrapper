@@ -11,5 +11,4 @@ import lombok.ToString;
 @ToString
 public class InputDTO {
     private String what;
-    private String where;
 }

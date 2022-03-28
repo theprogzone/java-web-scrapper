@@ -23,11 +23,12 @@ import org.jsoup.select.Elements;
 public class Main {
 
     private static final String WEBSITE_URL = "https://hk.indeed.com/jobs";
+    private static final String LOCATION = "Hong Kong";
 
-    private static void scrapePage(Document document, MongoDatabase mongoDatabase) {
+    private static void scrapePage(Document document, MongoDatabase mongoDatabase, String searchTerm) {
         try {
             Elements repositories = document.select("a.tapItem");
-            MongoCollection<org.bson.Document> dbCollection = mongoDatabase.getCollection("jobs");
+            MongoCollection<org.bson.Document> dbCollection = mongoDatabase.getCollection(searchTerm.toLowerCase().replaceAll("\\s+", "_"));
             List<org.bson.Document> basicDBObjects = new ArrayList<>();
 
             for (Element repository : repositories) {
@@ -114,7 +115,7 @@ public class Main {
             stringBuilder.append("?q=");
             stringBuilder.append(inputDTO.getWhat());
             stringBuilder.append("&l=");
-            stringBuilder.append(inputDTO.getWhere());
+            stringBuilder.append(LOCATION);
 
             String url = stringBuilder.toString();
             System.out.println("Url : " + url);
@@ -125,14 +126,14 @@ public class Main {
             System.out.println();
 
             MongoDatabase mongoDatabase = mongoClient.getDatabase("indeed");
-            scrapePage(doc, mongoDatabase);
+            scrapePage(doc, mongoDatabase, inputDTO.getWhat() == null ? "" : inputDTO.getWhat());
             for (int i = 1; i < 67; i++) {
                 String urlWithPagination = stringBuilder.toString() + "&start=" + (i * 10);
                 System.out.println(urlWithPagination);
                 Document document;
                 try {
                     document = Jsoup.connect(urlWithPagination).get();
-                    scrapePage(document, mongoDatabase);
+                    scrapePage(document, mongoDatabase, inputDTO.getWhat() == null ? "" : inputDTO.getWhat());
                 } catch (MalformedURLException e) {
                     System.out.println("Error : invalid url");
                     break;
@@ -179,12 +180,10 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         System.out.println("What : ");
         String what = scanner.nextLine();
-        System.out.println("Where : ");
-        String where = scanner.nextLine();
 
         MongoConnection mongoConnection = new MongoConnection("localhost", 27017, "", "");
 
-        InputDTO inputDTO = new InputDTO(what, where);
+        InputDTO inputDTO = new InputDTO(what);
         getJobDetails(inputDTO, mongoConnection);
     }
 }
