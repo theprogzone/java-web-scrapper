@@ -38,6 +38,8 @@ public class Main {
                     System.out.println(urlParamMap.get("jk").get(0));
                     document1.put("_id", urlParamMap.get("jk").get(0));
                     document1.put("adsCardUrl", WEBSITE_URL.replace("/jobs", "") + repository.attr("href"));
+                    System.out.println("original : " + WEBSITE_URL.replace("/jobs", "") + "/applystart?jk=" + urlParamMap.get("jk").get(0));
+                    document1.put("original", WEBSITE_URL.replace("/jobs", "") + "/applystart?jk=" + urlParamMap.get("jk").get(0));
                     List<Element> titleElements = repository.select("span");
                     Optional<Element> titleElement = titleElements.stream().filter(t -> t.hasAttr("title")).findFirst();
                     if (titleElement.isPresent()) {
@@ -124,18 +126,16 @@ public class Main {
 
             MongoDatabase mongoDatabase = mongoClient.getDatabase("indeed");
             scrapePage(doc, mongoDatabase);
-            if (inputDTO.getPages() > 0) {
-                for (int i = 1; i < inputDTO.getPages(); i++) {
-                    String urlWithPagination = stringBuilder.toString() + "&start=" + (i * 10);
-                    System.out.println(urlWithPagination);
-                    Document document;
-                    try {
-                        document = Jsoup.connect(urlWithPagination).get();
-                        scrapePage(document, mongoDatabase);
-                    } catch (MalformedURLException e) {
-                        System.out.println("Error : invalid url");
-                        break;
-                    }
+            for (int i = 1; i < 67; i++) {
+                String urlWithPagination = stringBuilder.toString() + "&start=" + (i * 10);
+                System.out.println(urlWithPagination);
+                Document document;
+                try {
+                    document = Jsoup.connect(urlWithPagination).get();
+                    scrapePage(document, mongoDatabase);
+                } catch (MalformedURLException e) {
+                    System.out.println("Error : invalid url");
+                    break;
                 }
             }
 
@@ -181,12 +181,10 @@ public class Main {
         String what = scanner.nextLine();
         System.out.println("Where : ");
         String where = scanner.nextLine();
-        System.out.println("Pages : ");
-        int pages = scanner.nextInt();
 
         MongoConnection mongoConnection = new MongoConnection("localhost", 27017, "", "");
 
-        InputDTO inputDTO = new InputDTO(what, where, pages);
+        InputDTO inputDTO = new InputDTO(what, where);
         getJobDetails(inputDTO, mongoConnection);
     }
 }

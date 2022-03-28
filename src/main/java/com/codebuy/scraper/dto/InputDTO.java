@@ -12,5 +12,4 @@ import lombok.ToString;
 public class InputDTO {
     private String what;
     private String where;
-    private int pages;
 }
