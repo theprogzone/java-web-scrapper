@@ -30,17 +30,23 @@ public class Main {
             Elements repositories = document.select("a.tapItem");
             MongoCollection<org.bson.Document> dbCollection = mongoDatabase.getCollection(searchTerm.toLowerCase().replaceAll("\\s+", "_"));
             List<org.bson.Document> basicDBObjects = new ArrayList<>();
-
+            System.out.println("Total : " + repositories.size());
             for (Element repository : repositories) {
                 org.bson.Document document1 = new org.bson.Document();
                 System.out.println(WEBSITE_URL.replace("/jobs", "") + repository.attr("href"));
                 Map<String, List<String>> urlParamMap = getQueryParams(WEBSITE_URL.replace("/jobs", "") + repository.attr("href"));
+                String jobId = "";
                 if (urlParamMap.get("jk") != null && !urlParamMap.get("jk").isEmpty()) {
-                    System.out.println(urlParamMap.get("jk").get(0));
-                    document1.put("_id", urlParamMap.get("jk").get(0));
+                    jobId = urlParamMap.get("jk").get(0);
+                } else {
+                    jobId = getJobId(WEBSITE_URL.replace("/jobs", "") + repository.attr("href"));
+                }
+                if (!jobId.isEmpty()) {
+                    System.out.println("job id : "+jobId);
+                    document1.put("_id", jobId);
                     document1.put("adsCardUrl", WEBSITE_URL.replace("/jobs", "") + repository.attr("href"));
-                    System.out.println("original : " + WEBSITE_URL.replace("/jobs", "") + "/applystart?jk=" + urlParamMap.get("jk").get(0));
-                    document1.put("original", WEBSITE_URL.replace("/jobs", "") + "/applystart?jk=" + urlParamMap.get("jk").get(0));
+                    System.out.println("original : " + WEBSITE_URL.replace("/jobs", "") + "/applystart?jk=" + jobId);
+                    document1.put("original", WEBSITE_URL.replace("/jobs", "") + "/applystart?jk=" + jobId);
                     List<Element> titleElements = repository.select("span");
                     Optional<Element> titleElement = titleElements.stream().filter(t -> t.hasAttr("title")).findFirst();
                     if (titleElement.isPresent()) {
@@ -173,6 +179,21 @@ public class Main {
         } catch (UnsupportedEncodingException ex) {
             throw new AssertionError(ex);
         }
+    }
+
+    public static String getJobId(String url) {
+        String jobId = "";
+        String[] a = url.split("jobs/");
+        if (a.length > 1) {
+            String[] b = a[1].split("\\?fccid");
+            if (b.length > 1) {
+                String[] c = b[0].split("-");
+                if (c.length > 0) {
+                    jobId = c[c.length - 1];
+                }
+            }
+        }
+        return jobId;
     }
 
     public static void main(String[] args) {
