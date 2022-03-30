@@ -38,6 +38,11 @@ public class Main {
                 String jobId = "";
                 if (urlParamMap.get("jk") != null && !urlParamMap.get("jk").isEmpty()) {
                     jobId = urlParamMap.get("jk").get(0);
+                } else if (urlParamMap.get("ad") != null && !urlParamMap.get("ad").isEmpty()) {
+                    String [] arr = urlParamMap.get("ad").get(0).split("_");
+                    if (arr.length > 0) {
+                        jobId = arr[0];
+                    }
                 } else {
                     jobId = getJobId(WEBSITE_URL.replace("/jobs", "") + repository.attr("href"));
                 }
